@@ -2,14 +2,2020 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=2026_Utaipei_Geophysics_0909-main/docs/index.html">
-  <title>正在導向至地球物理通論課程網頁...</title>
-  <script>
-    window.location.href = "2026_Utaipei_Geophysics_0909-main/docs/index.html";
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>地球物理通論｜課程指引與探索手冊 · 臺北市立大學</title>
+  <meta name="description" content="臺北市立大學地球環境暨生物資源學系《地球物理通論》課程引導指南：探索地球、CLIL 雙語學習、AI 協作探究與課前準備全攻略。">
+  <meta name="keywords" content="地球物理通論, 臺北市立大學, 地生系, 陳達毅, CLIL, PyGMT, Google Colab, CER, DEAR, 水彩風課程頁">
+
+  <!-- Google Fonts: Zen Maru Gothic (溫潤圓體), Noto Serif TC (典雅襯線), Caveat (手寫童趣), Quicksand (清爽英文字) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Noto+Serif+TC:wght@600;700;900&family=Quicksand:wght@500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       🎨 水彩畫風設計系統 (Watercolor Design System)
+       ========================================================================== */
+    :root {
+      /* 水彩冷壓紙張質感底色 */
+      --paper-base: #fcfaf6;
+      --paper-cream: #f6f1e8;
+      --paper-card: rgba(255, 255, 255, 0.88);
+      --paper-border: rgba(210, 195, 175, 0.45);
+
+      /* 水彩暈染調色盤 (自然與地球物理主題) */
+      --wash-blue: #6aaac5;        /* 湖水與深海藍 */
+      --wash-blue-soft: #eaf4f8;
+      --wash-coral: #e07a5f;       /* 地函岩漿珊瑚粉橘 */
+      --wash-coral-soft: #fcf1ed;
+      --wash-sage: #7ba686;        /* 地表植被鼠尾草綠 */
+      --wash-sage-soft: #eef6f0;
+      --wash-amber: #e8b056;       /* 地熱晨曦琥珀金 */
+      --wash-amber-soft: #fef7eb;
+      --wash-lavender: #9a8c98;    /* 暮光礦石紫 */
+      --wash-lavender-soft: #f5f2f6;
+
+      /* 手工墨水字色 */
+      --ink-primary: #2d3748;
+      --ink-secondary: #4a5568;
+      --ink-muted: #718096;
+      --ink-link: #3182ce;
+
+      /* 字體設定 */
+      --font-display: 'Noto Serif TC', serif;
+      --font-body: 'Zen Maru Gothic', sans-serif;
+      --font-hand: 'Caveat', cursive;
+      --font-en: 'Quicksand', sans-serif;
+
+      /* 水彩有機陰影與柔邊 */
+      --shadow-wash: 0 12px 36px -8px rgba(180, 160, 140, 0.22), 0 4px 16px -4px rgba(120, 100, 80, 0.08);
+      --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.04);
+      --radius-organic-1: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      --radius-organic-2: 24px 8px 32px 12px / 12px 28px 10px 24px;
+      --radius-card: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--paper-base);
+      color: var(--ink-primary);
+      font-family: var(--font-body);
+      line-height: 1.8;
+      font-size: 16px;
+      overflow-x: hidden;
+      position: relative;
+      /* 模擬手工水彩紙纖維紋理 */
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(224, 122, 95, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(106, 170, 197, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 30% 70%, rgba(123, 166, 134, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 75% 85%, rgba(232, 176, 86, 0.07) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* 頂部水彩紙膠帶裝飾條 */
+    .top-washi-strip {
+      height: 8px;
+      background: linear-gradient(90deg, 
+        var(--wash-coral) 0%, 
+        var(--wash-amber) 25%, 
+        var(--wash-sage) 50%, 
+        var(--wash-blue) 75%, 
+        var(--wash-lavender) 100%);
+      opacity: 0.85;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+    }
+
+    /* 容器設定 */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       🌸 導航列 (Navbar with Watercolor Touch)
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(252, 250, 246, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px dashed rgba(210, 195, 175, 0.5);
+      padding: 14px 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-organic-1);
+      background: linear-gradient(135deg, var(--wash-coral), var(--wash-amber));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 2px 4px 10px rgba(224, 122, 95, 0.3);
+      transform: rotate(-3deg);
+    }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-family: var(--font-display);
+      font-weight: 900;
+      color: var(--ink-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-family: var(--font-en);
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink-secondary);
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--wash-coral);
+      background: var(--wash-coral-soft);
+    }
+
+    .btn-live-classroom {
+      background: linear-gradient(135deg, var(--wash-blue), #4a91b2) !important;
+      color: white !important;
+      border-radius: var(--radius-organic-2) !important;
+      box-shadow: 0 4px 12px rgba(106, 170, 197, 0.4);
+      padding: 8px 18px !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    .btn-live-classroom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(106, 170, 197, 0.55);
+      background: linear-gradient(135deg, #5b9db8, #3b81a2) !important;
+    }
+
+    /* ==========================================================================
+       🎨 Hero 展幅區 (Watercolor Hero Showcase)
+       ========================================================================== */
+    .hero-section {
+      padding: 60px 0 70px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--wash-amber-soft);
+      color: #9c6c17;
+      border: 1px dashed rgba(232, 176, 86, 0.7);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      transform: rotate(-1deg);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      line-height: 1.25;
+      font-weight: 900;
+      color: #1a2530;
+      margin-bottom: 20px;
+    }
+
+    .hero-title .watercolor-highlight {
+      position: relative;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .hero-title .watercolor-highlight::after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: 6px;
+      height: 16px;
+      background: rgba(232, 176, 86, 0.35);
+      border-radius: 4px;
+      z-index: -1;
+      transform: rotate(-1.5deg);
+    }
+
+    .hero-desc {
+      font-size: 1.12rem;
+      color: var(--ink-secondary);
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+
+    .hero-desc mark {
+      background: rgba(106, 170, 197, 0.25);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--ink-primary);
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .btn-pill {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 13px 26px;
+      border-radius: var(--radius-organic-1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .btn-pill.primary {
+      background: linear-gradient(135deg, var(--wash-coral), #d46345);
+      color: white;
+      box-shadow: 0 8px 20px rgba(224, 122, 95, 0.35);
+    }
+
+    .btn-pill.primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(224, 122, 95, 0.45);
+    }
+
+    .btn-pill.secondary {
+      background: var(--paper-card);
+      color: var(--ink-primary);
+      border-color: var(--paper-border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-pill.secondary:hover {
+      background: white;
+      color: var(--wash-blue);
+      border-color: var(--wash-blue);
+      transform: translateY(-2px);
+    }
+
+    /* 核心金句三張手繪小卡 (Hero Slogan Cards) */
+    .slogan-banner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .slogan-mini-card {
+      background: white;
+      border: 1px solid var(--paper-border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .slogan-mini-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .slogan-mini-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+    }
+
+    .slogan-mini-card.c1::before { background: var(--wash-coral); }
+    .slogan-mini-card.c2::before { background: var(--wash-blue); }
+    .slogan-mini-card.c3::before { background: var(--wash-sage); }
+
+    .slogan-mini-card .en {
+      font-family: var(--font-en);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slogan-mini-card .zh {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-top: 2px;
+    }
+
+    /* Hero 右側水彩插畫畫布 (Watercolor Canvas Card) */
+    .hero-visual {
+      position: relative;
+    }
+
+    .watercolor-frame {
+      background: white;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow-wash);
+      border: 2px solid var(--paper-border);
+      position: relative;
+      transform: rotate(1deg);
+      transition: transform 0.3s ease;
+    }
+
+    .watercolor-frame:hover {
+      transform: rotate(0deg) scale(1.01);
+    }
+
+    .watercolor-frame::after {
+      content: '📌 地球探究進行中';
+      position: absolute;
+      top: -14px;
+      right: 24px;
+      background: var(--wash-amber);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(232, 176, 86, 0.4);
+    }
+
+    .visual-image-wrap {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #f0ebe1;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .visual-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .visual-caption {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       🌿 區塊共用樣式 (Section Layouts & Headings)
+       ========================================================================== */
+    section {
+      padding: 70px 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 48px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-hand);
+      font-size: 1.5rem;
+      color: var(--wash-coral);
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+      font-weight: 900;
+      color: #1a202c;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       🏛️ 三大支柱 (Three Pillars of Learning)
+       ========================================================================== */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .pillar-card {
+      background: white;
+      border-radius: var(--radius-card);
+      padding: 36px 28px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-wash);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -10px rgba(160, 140, 120, 0.35);
+    }
+
+    .pillar-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: var(--radius-organic-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .pillar-card.p1 .pillar-badge { background: var(--wash-coral-soft); color: var(--wash-coral); }
+    .pillar-card.p2 .pillar-badge { background: var(--wash-blue-soft); color: var(--wash-blue); }
+    .pillar-card.p3 .pillar-badge { background: var(--wash-sage-soft); color: var(--wash-sage); }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: var(--ink-primary);
+    }
+
+    .pillar-en {
+      font-family: var(--font-en);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pillar-desc {
+      font-size: 0.96rem;
+      color: var(--ink-secondary);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .pillar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .pillar-tags li {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--paper-base);
+      color: var(--ink-secondary);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* ==========================================================================
+       💡 上課模式與 5 步探究 (How We Learn)
+       ========================================================================== */
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .step-card {
+      background: white;
+      border: 2px solid var(--paper-border);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+      position: relative;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.25s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--wash-coral);
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 auto 12px;
+      background: var(--wash-amber-soft);
+      color: #9c6c17;
+      font-family: var(--font-hand);
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+
+    .step-name-zh {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .step-name-en {
+      font-family: var(--font-en);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* CER 與 DEAR 雙翼探究展示 */
+    .framework-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .framework-card {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-wash);
+    }
+
+    .framework-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .framework-header .icon {
+      font-size: 32px;
+    }
+
+    .framework-header h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .framework-header p {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      font-family: var(--font-en);
+      font-weight: 600;
+    }
+
+    .cer-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cer-item {
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cer-item.c { background: var(--wash-coral-soft); }
+    .cer-item.e { background: var(--wash-blue-soft); }
+    .cer-item.r { background: var(--wash-sage-soft); }
+
+    .cer-letter {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .cer-item.c .cer-letter { color: var(--wash-coral); }
+    .cer-item.e .cer-letter { color: var(--wash-blue); }
+    .cer-item.r .cer-letter { color: var(--wash-sage); }
+
+    .cer-content h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .cer-content p {
+      font-size: 0.84rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       🎒 課前準備與互動檢核清單 (How to Prepare & Checklist)
+       ========================================================================== */
+    .prepare-wrap {
+      background: white;
+      border-radius: 28px;
+      padding: 40px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-wash);
+      position: relative;
+    }
+
+    .checklist-progress-bar {
+      margin-bottom: 30px;
+      background: var(--paper-cream);
+      border-radius: 20px;
+      padding: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 18px;
+      background: linear-gradient(90deg, var(--wash-coral), var(--wash-amber), var(--wash-sage));
+      border-radius: 16px;
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .progress-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+    }
+
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 2px dashed rgba(210, 195, 175, 0.6);
+      background: var(--paper-base);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .check-item:hover {
+      background: white;
+      border-color: var(--wash-blue);
+      transform: translateY(-2px);
+    }
+
+    .check-item.completed {
+      background: var(--wash-sage-soft);
+      border-color: var(--wash-sage);
+      border-style: solid;
+    }
+
+    .check-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 2px solid var(--ink-muted);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: transparent;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .check-item.completed .check-box {
+      background: var(--wash-sage);
+      border-color: var(--wash-sage);
+      color: white;
+    }
+
+    .check-text h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+    }
+
+    .check-text p {
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* 恭喜解鎖徽章彈出 */
+    .congrats-banner {
+      margin-top: 24px;
+      background: linear-gradient(135deg, var(--wash-amber-soft), #fff3db);
+      border: 2px dashed var(--wash-amber);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: none;
+      align-items: center;
+      gap: 14px;
+      animation: popIn 0.4s ease forwards;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ==========================================================================
+       🤖 AI 協作者指南針 (AI Collaborator Compass)
+       ========================================================================== */
+    .ai-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .compare-card {
+      border-radius: 20px;
+      padding: 28px;
+      border: 2px solid;
+    }
+
+    .compare-card.bad {
+      background: #fff5f5;
+      border-color: rgba(229, 62, 62, 0.3);
+    }
+
+    .compare-card.good {
+      background: #f0fff4;
+      border-color: rgba(72, 187, 120, 0.35);
+    }
+
+    .compare-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .compare-card.bad .compare-card-badge {
+      background: #fed7d7;
+      color: #9b2c2c;
+    }
+
+    .compare-card.good .compare-card-badge {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+
+    .prompt-box {
+      background: white;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: var(--font-en), monospace;
+      font-size: 0.88rem;
+      color: var(--ink-primary);
+      margin-bottom: 12px;
+      border: 1px solid rgba(0,0,0,0.08);
+      line-height: 1.6;
+    }
+
+    .prompt-result {
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+    }
+
+    /* 人機協作 6 步圓環 */
+    .ai-steps-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .ai-step-pill {
+      background: white;
+      border: 1px solid var(--paper-border);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .ai-step-pill .num {
+      font-family: var(--font-hand);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--wash-coral);
+    }
+
+    .ai-step-pill h5 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin: 4px 0 2px;
+    }
+
+    .ai-step-pill p {
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       🗺️ 18 週學習地圖 (Interactive 18-Week Roadmap)
+       ========================================================================== */
+    .timeline-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .toggle-btn {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 30px;
+      border: 2px solid var(--paper-border);
+      background: white;
+      cursor: pointer;
+      color: var(--ink-secondary);
+      transition: all 0.25s ease;
+    }
+
+    .toggle-btn.active {
+      background: var(--wash-coral);
+      border-color: var(--wash-coral);
+      color: white;
+      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.35);
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .week-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .week-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--wash-blue);
+      box-shadow: var(--shadow-wash);
+    }
+
+    .week-badge {
+      display: inline-block;
+      font-family: var(--font-en);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: var(--wash-blue-soft);
+      color: var(--wash-blue);
+      margin-bottom: 8px;
+    }
+
+    .week-card.midterm .week-badge,
+    .week-card.final .week-badge {
+      background: var(--wash-coral-soft);
+      color: var(--wash-coral);
+    }
+
+    .week-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--ink-primary);
+    }
+
+    .week-card p {
+      font-size: 0.86rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       🗣️ CLIL 雙語百寶箱 (Bilingual Soundboard)
+       ========================================================================== */
+    .clil-card-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .clil-voice-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px 22px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .clil-voice-card:hover {
+      border-color: var(--wash-coral);
+      transform: translateX(4px);
+    }
+
+    .voice-text .en {
+      font-family: var(--font-en);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+    }
+
+    .voice-text .zh {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+    }
+
+    .btn-speak {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: var(--wash-coral-soft);
+      color: var(--wash-coral);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-speak:hover {
+      background: var(--wash-coral);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    /* ==========================================================================
+       ❓ 常見問答 FAQ (Accordion Style)
+       ========================================================================== */
+    .faq-list {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 16px;
+      border: 2px solid var(--paper-border);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-question {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      user-select: none;
+    }
+
+    .faq-question:hover {
+      color: var(--wash-blue);
+    }
+
+    .faq-question .indicator {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .indicator {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0 24px 20px;
+      color: var(--ink-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      display: none;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    /* ==========================================================================
+       🌟 頁尾 (Watercolor Footer)
+       ========================================================================== */
+    footer {
+      background: var(--paper-cream);
+      border-top: 2px dashed rgba(210, 195, 175, 0.8);
+      padding: 60px 0 40px;
+      margin-top: 60px;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--ink-primary);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--ink-secondary);
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--wash-coral);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    /* 水彩點擊水波特效容器 */
+    .click-ripple {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: rippleExpand 0.6s ease-out forwards;
+      z-index: 9999;
+    }
+
+    @keyframes rippleExpand {
+      0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0.7;
+      }
+      100% {
+        width: 140px;
+        height: 140px;
+        opacity: 0;
+      }
+    }
+
+    /* RWD 響應式微調 */
+    @media (max-width: 900px) {
+      .hero-grid,
+      .framework-duo,
+      .checklist-grid,
+      .ai-compare-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .clil-card-container {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-steps-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .slogan-banner {
+        grid-template-columns: 1fr;
+      }
+      .ai-steps-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .flow-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding-top: 50px; background: #fcfaf6; color: #2d3748;">
-  <h2>正在前往《地球物理通論》課程指引...</h2>
-  <p>若未自動跳轉，請點擊：<a href="2026_Utaipei_Geophysics_0909-main/docs/index.html" style="color: #e07a5f; font-weight: bold;">進入水彩風課程首頁</a></p>
+<body>
+
+  <!-- 頂部水彩紙膠帶色彩線條 -->
+  <div class="top-washi-strip" aria-hidden="true"></div>
+
+  <!-- 導航列 -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand-group">
+        <div class="brand-badge">🌍</div>
+        <div class="brand-text">
+          <h1>地球物理通論</h1>
+          <p>General Geophysics · 北市大地生系</p>
+        </div>
+      </a>
+
+      <nav aria-label="頁面選單">
+        <ul class="nav-links">
+          <li><a href="#pillars">三大支柱</a></li>
+          <li><a href="#how-we-learn">上課方式</a></li>
+          <li><a href="#preparation">課前準備</a></li>
+          <li><a href="#ai-guide">AI 協作指南</a></li>
+          <li><a href="#roadmap">18週地圖</a></li>
+          <li><a href="#clil-box">雙語句型</a></li>
+          <li><a href="#faq">常見問題</a></li>
+          <li><a href="classroom.html" class="btn-live-classroom" target="_self"><span>進入課堂即時系統</span> 🚀</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO 視覺與課程簡介 -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <span class="hero-tag">🍂 115 學年度第 1 學期 · 陳達毅 老師</span>
+          <h2 class="hero-title">
+            像地球物理學家一樣<br>
+            用<span class="watercolor-highlight">資料與證據</span>看透地球
+          </h2>
+          <p class="hero-desc">
+            如果我們不知道板塊構造理論，只拿到<strong>地形、地震、火山、重力與熱流</strong>，我們能不能自己推論出地球內部與表面正在發生什麼事？這門課融合了 <mark>Geophysics 學科知識</mark> × <mark>CLIL 雙語思考</mark> × <mark>AI 數位實作</mark>，帶你親手繪製第一張地圖、建立科學模型！
+          </p>
+
+          <div class="hero-actions">
+            <a href="#preparation" class="btn-pill primary">🎒 課前準備清單</a>
+            <a href="classroom.html" class="btn-pill secondary">🖥️ 開啟課堂即時互動頁</a>
+            <a href="#how-we-learn" class="btn-pill secondary">💡 了解 5 步探究法</a>
+          </div>
+
+          <!-- 核心三口號手繪卡 -->
+          <div class="slogan-banner">
+            <div class="slogan-mini-card c1">
+              <div class="en">How do we know?</div>
+              <div class="zh">我們怎麼知道？</div>
+            </div>
+            <div class="slogan-mini-card c2">
+              <div class="en">What is the evidence?</div>
+              <div class="zh">有什麼證據支持？</div>
+            </div>
+            <div class="slogan-mini-card c3">
+              <div class="en">AI is Collaborator</div>
+              <div class="zh">理解答案是你的責任</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 水彩相框示意圖 -->
+        <div class="hero-visual">
+          <div class="watercolor-frame">
+            <div class="visual-image-wrap">
+              <img src="assets/img/map1-course.jpg" alt="地球物理通論三大支柱概念圖" onerror="this.src='ChatGPT Image 2026年9月9日 上午01_51_32 (1).png'">
+            </div>
+            <p class="visual-caption">🌾 學科知識 (Geophysics) × 雙語表達 (CLIL) × AI 數位素養</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: 三大支柱 -->
+    <section id="pillars" style="background: rgba(246, 241, 232, 0.45);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Three Pillars of Learning</span>
+          <h3 class="section-title">這門課到底在學什麼？三大核心主軸</h3>
+          <p class="section-subtitle">打破傳統「只背名詞」的學習模式，建立帶得走的研究與表達能力</p>
+        </div>
+
+        <div class="pillars-grid">
+          <!-- 支柱 1 -->
+          <article class="pillar-card p1">
+            <div class="pillar-badge">🌋</div>
+            <h4 class="pillar-title">地球物理學科</h4>
+            <div class="pillar-en">Geophysics Knowledge</div>
+            <p class="pillar-desc">
+              地球內部切不開，但我們可以用物理訊號「看見」它！學習地震震測、重力異常、地磁條帶、地電阻率與地熱流，透過觀測推論地殼厚度、斷層構造與岩漿庫位置。
+            </p>
+            <ul class="pillar-tags">
+              <li>震測探勘</li>
+              <li>重力異常</li>
+              <li>地磁與地電</li>
+              <li>板塊構造</li>
+            </ul>
+          </article>
+
+          <!-- 支柱 2 -->
+          <article class="pillar-card p2">
+            <div class="pillar-badge">🗣️</div>
+            <h4 class="pillar-title">雙語學習與論證</h4>
+            <div class="pillar-en">CLIL / Science through English</div>
+            <p class="pillar-desc">
+              這不是英文背誦課，而是用英文句型<strong>梳理科學邏輯</strong>。掌握 8 層科學思考句型，從描述現象、提出假說到以 CER 架構進行中英文論證與專題口頭發表。
+            </p>
+            <ul class="pillar-tags">
+              <li>8層核心句型</li>
+              <li>CER 論證</li>
+              <li>中英文小組討論</li>
+              <li>雙語成果發表</li>
+            </ul>
+          </article>
+
+          <!-- 支柱 3 -->
+          <article class="pillar-card p3">
+            <div class="pillar-badge">💻</div>
+            <h4 class="pillar-title">AI 與數位素養</h4>
+            <div class="pillar-en">AI & Digital Literacy</div>
+            <p class="pillar-desc">
+              親手玩真實資料！善用 Gemini / AI Agent 作為探究夥伴，在 Google Colab 運用 PyGMT 0.17 繪製高解析地形，建立 GitHub 學習歷程網站與 3D 實體模型列印。
+            </p>
+            <ul class="pillar-tags">
+              <li>Google Colab</li>
+              <li>PyGMT 繪圖</li>
+              <li>GitHub Pages</li>
+              <li>3D 地形列印</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 上課進行方式與 5 步探究法 -->
+    <section id="how-we-learn">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Interactive Methodology</span>
+          <h3 class="section-title">我們怎麼上課？5 步探究魔法環</h3>
+          <p class="section-subtitle">每堂課都像一場小型科學探險，拒絕被動聽講，全員動手參與</p>
+        </div>
+
+        <!-- 5 步流程 -->
+        <div class="flow-steps">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-name-zh">老師示範</div>
+            <div class="step-name-en">Teacher Demonstrates</div>
+            <p class="step-desc">提出引導問題、展示真實觀測資料或程式碼雛形。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-name-zh">學生實作</div>
+            <div class="step-name-en">Students Practice</div>
+            <p class="step-desc">開啟筆電，在 Colab 上重現資料圖形，快速熟悉工具。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-name-zh">小組探究</div>
+            <div class="step-name-en">Students Investigate</div>
+            <p class="step-desc">2–3 人成組，利用 AI 與地球物理原理尋找假說可能。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div class="step-name-zh">科學解釋</div>
+            <div class="step-name-en">Students Explain</div>
+            <p class="step-desc">套用 CER 框架與 CLIL 句型，把證據串聯成完整論述。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">5</div>
+            <div class="step-name-zh">成果展示</div>
+            <div class="step-name-en">Students Present</div>
+            <p class="step-desc">更新至個人 GitHub Pages 網頁，同儕互評交流。</p>
+          </div>
+        </div>
+
+        <!-- CER 與 DEAR 探究工具箱 -->
+        <div class="framework-duo">
+          <!-- CER -->
+          <div class="framework-card">
+            <div class="framework-header">
+              <div class="icon">📐</div>
+              <div>
+                <h3>CER 科學論證框架</h3>
+                <p>Claim · Evidence · Reasoning</p>
+              </div>
+            </div>
+            <div class="cer-items">
+              <div class="cer-item c">
+                <div class="cer-letter">C</div>
+                <div class="cer-content">
+                  <h4>Claim（主張）</h4>
+                  <p>提出你對現象的回答或假說（例：台灣周遭頻繁的地震活動與板塊碰撞隱沒界面密切相關）。</p>
+                </div>
+              </div>
+              <div class="cer-item e">
+                <div class="cer-letter">E</div>
+                <div class="cer-content">
+                  <h4>Evidence（證據）</h4>
+                  <p>由地圖、地震深度分布圖或走時資料展現的事實數據（例：東部地震由海溝往陸地深度逐漸增加）。</p>
+                </div>
+              </div>
+              <div class="cer-item r">
+                <div class="cer-letter">R</div>
+                <div class="cer-content">
+                  <h4>Reasoning（推理）</h4>
+                  <p>用物理與地質學原理，解釋為什麼這項證據能夠有力支持你的主張。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DEAR -->
+          <div class="framework-card">
+            <div class="framework-header">
+              <div class="icon">🔄</div>
+              <div>
+                <h3>DEAR 科學建模循環</h3>
+                <p>Design · Elaborate · Apply · Revise</p>
+              </div>
+            </div>
+            <div class="cer-items">
+              <div class="cer-item c">
+                <div class="cer-letter">D</div>
+                <div class="cer-content">
+                  <h4>Design（建立初始模型）</h4>
+                  <p>我們認為正在發生什麼事？先勾勒最簡單的模型（例：地下均質兩層介質）。</p>
+                </div>
+              </div>
+              <div class="cer-item e">
+                <div class="cer-letter">E</div>
+                <div class="cer-content">
+                  <h4>Elaborate & Apply（加入細節與預測）</h4>
+                  <p>加入折射波走時方程式，推導若模型正確，地表應測量到什麼理論數據。</p>
+                </div>
+              </div>
+              <div class="cer-item r">
+                <div class="cer-letter">R</div>
+                <div class="cer-content">
+                  <h4>Revise（比對觀測並修正）</h4>
+                  <p>比較預測與實際測量值的殘差（Residual），若不吻合則修正模型！</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: 課前如何準備？新生裝備包 (Interactive Checklist) -->
+    <section id="preparation" style="background: rgba(234, 244, 248, 0.4);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Get Ready for Adventure</span>
+          <h3 class="section-title">課前如何準備？新生冒險裝備包</h3>
+          <p class="section-subtitle">開學第一天帶上這些工具，點擊勾選清單，看看你的探索準備度！</p>
+        </div>
+
+        <div class="prepare-wrap">
+          <!-- 互動進度條 -->
+          <div class="checklist-progress-bar">
+            <div class="progress-fill" id="checklist-fill"></div>
+          </div>
+          <div class="progress-status">
+            <span>裝備準備進度：<strong id="completed-count">0</strong> / 6 項</span>
+            <span id="progress-percent">0%</span>
+          </div>
+
+          <!-- 6 個裝備項目 -->
+          <div class="checklist-grid" style="margin-top: 20px;">
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>💻 1. 可連上 Wi-Fi 的筆記型電腦</h4>
+                <p>每堂課都需要動手操作與瀏覽資料，請確保電量充足或攜帶充電器。</p>
+              </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>🐙 2. 註冊好個人 GitHub 帳號</h4>
+                <p>GitHub 是你的數位學習歷程資料夾，建議建立名為 <code>geophysics-2026</code> 的公開倉庫。</p>
+              </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>☁️ 3. Google 帳號與熟悉 Colab</h4>
+                <p>課堂實作用 Google Colab 雲端執行 Python 與 PyGMT 繪圖，無需複雜本機環境設定。</p>
+              </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>🤖 4. Gemini / 生成式 AI 帳號就緒</h4>
+                <p>準備好使用 Gemini，學習「向 AI 提問、索取多元假說、查證事實」的高階協作模式。</p>
+              </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>👥 5. 組隊心態（2–3 人小組）</h4>
+                <p>選定組長、資料處理、中英文解釋與網頁設計夥伴，分工合作但人人皆需理解全貌。</p>
+              </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+              <div class="check-box">✓</div>
+              <div class="check-text">
+                <h4>🧠 6. 開放求真的科學思維</h4>
+                <p>不怕推翻舊模型，帶著「我們怎麼知道？」的好奇心，以資料說話！</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 達成 100% 慶祝卡片 -->
+          <div class="congrats-banner" id="congrats-banner">
+            <span style="font-size: 32px;">🎉</span>
+            <div>
+              <h4 style="font-family: var(--font-display); font-size: 1.15rem; color: #805b10;">太棒了！你的地球物理探險裝備已完全就緒！</h4>
+              <p style="font-size: 0.9rem; color: #9c6c17;">帶著你的裝備，隨時準備好探索地球深處的奧秘吧！</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: AI 是協作者，不是答案機器 -->
+    <section id="ai-guide">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">AI Collaborator Compass</span>
+          <h3 class="section-title">AI 是探究副駕駛，不是答案代寫機</h3>
+          <p class="section-subtitle">「AI 可以為你產生答案，但理解答案永遠是你自己的責任。」</p>
+        </div>
+
+        <!-- 提問技巧對照 -->
+        <div class="ai-compare-grid">
+          <div class="compare-card bad">
+            <span class="compare-card-badge">❌ 偷懶提問方式（不會學到東西）</span>
+            <div class="prompt-box">
+              「請幫我寫一份作業，說明為什麼台灣常常發生地震？字數約 500 字。」
+            </div>
+            <p class="prompt-result">
+              <strong>後果：</strong> AI 給你一篇標準教科書複製貼上，你直接交差。考試或提問時你說不出任何一項支持的實際觀測數據，缺乏思維鍛鍊。
+            </p>
+          </div>
+
+          <div class="compare-card good">
+            <span class="compare-card-badge">✅ 探究型 Prompt（啟動批判思考）</span>
+            <div class="prompt-box">
+              「請不要直接給我答案。請依據地球物理觀測，提出三個解釋台灣地震頻繁的可能假說，並告訴我每個假說需要哪些具體資料（如地震深度、地形、GPS 位移）才能驗證？」
+            </div>
+            <p class="prompt-result">
+              <strong>收穫：</strong> AI 成為你的討論夥伴！你開始懂得比對假說、在 PyGMT 畫出震源深度剖面圖，驗證到底哪一個假說才符合真相！
+            </p>
+          </div>
+        </div>
+
+        <!-- 人機協作 6 步 -->
+        <div class="ai-steps-row">
+          <div class="ai-step-pill">
+            <div class="num">01</div>
+            <h5>學生問題</h5>
+            <p>定義好奇與探究目標</p>
+          </div>
+          <div class="ai-step-pill">
+            <div class="num">02</div>
+            <h5>AI 建議</h5>
+            <p>激發多元視角與假說</p>
+          </div>
+          <div class="ai-step-pill">
+            <div class="num">03</div>
+            <h5>我的判斷</h5>
+            <p>批判評估、挑選可行點</p>
+          </div>
+          <div class="ai-step-pill">
+            <div class="num">04</div>
+            <h5>查找證據</h5>
+            <p>調用實測數據核對事實</p>
+          </div>
+          <div class="ai-step-pill">
+            <div class="num">05</div>
+            <h5>實證驗證</h5>
+            <p>繪圖運算、檢視殘差</p>
+          </div>
+          <div class="ai-step-pill">
+            <div class="num">06</div>
+            <h5>修正結論</h5>
+            <p>反思更新、建立新模型</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: 18 週學習地圖 -->
+    <section id="roadmap" style="background: rgba(254, 247, 235, 0.4);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">18-Week Expedition</span>
+          <h3 class="section-title">全學期 18 週探險地圖</h3>
+          <p class="section-subtitle">一步一腳印，從海溝地形到重力場，打造專屬於你的科學作品集</p>
+        </div>
+
+        <!-- 切換按鈕 -->
+        <div class="timeline-toggle">
+          <button type="button" class="toggle-btn active" onclick="filterRoadmap('part1')">前半學期：基礎與淺層震測 (W1–W8)</button>
+          <button type="button" class="toggle-btn" onclick="filterRoadmap('part2')">後半學期：重力地熱與專題發表 (W9–W18)</button>
+        </div>
+
+        <!-- 路線卡片 -->
+        <div class="roadmap-grid" id="roadmap-grid">
+          <!-- Part 1 -->
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 01</span>
+            <h4>課程導航與系統工具</h4>
+            <p>認識地球物理本質，配置 Colab、GitHub、AI Agent，完成第一段走時公式 Python 試算。</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 02</span>
+            <h4>PyGMT 全球地形地圖</h4>
+            <p>用程式碼繪製地球表面起伏，觀察海溝、山脈與熱點分布特徵。</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 03</span>
+            <h4>板塊構造與 3D 建模</h4>
+            <p>將數值地形資料轉為 3D STL 實體模型，觸摸真實地形構造。</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 04</span>
+            <h4>模型修正與展示</h4>
+            <p>比較地圖模型、概念模型與 3D 列印實體模型之解譯優勢與限制。</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 05</span>
+            <h4>校園野外折射震測實作</h4>
+            <p>實地在校園草地佈設檢波器、敲擊落錘，採集第一手震波資料！</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 06</span>
+            <h4>折射震測原理與走時圖</h4>
+            <p>判讀直達波與折射波，以 Snell's Law 反演第一層與第二層波速與深度。</p>
+          </div>
+          <div class="week-card" data-part="part1">
+            <span class="week-badge">Week 07</span>
+            <h4>折射探勘與期中準備</h4>
+            <p>整合理論與實作走時模型，熟悉反演概念與約束條件。</p>
+          </div>
+          <div class="week-card midterm" data-part="part1">
+            <span class="week-badge">Week 08 · 檢定</span>
+            <h4>期中考 (Midterm)</h4>
+            <p>檢核基礎觀測方法、走時計算、正反演概念與多重證據思考。</p>
+          </div>
+
+          <!-- Part 2 -->
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 09</span>
+            <h4>重力與 Geoid 3D 列印</h4>
+            <p>探索大地水準面（Geoid），用 3D 觸摸地球看不見的重力場凹凸起伏。</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 10</span>
+            <h4>重力異常與地下密度</h4>
+            <p>分析布格重力異常，解譯地下沉積盆地深度與岩漿庫構造。</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 11</span>
+            <h4>地球物理專家專題演講</h4>
+            <p>邀請產學領域專家分享真實震測調查、防災或地熱應用前線經驗。</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 12</span>
+            <h4>板塊構造與地熱探勘</h4>
+            <p>結合地溫梯度與熱流，為地球進行綠能健康檢查。</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 13</span>
+            <h4>地電與地磁原理</h4>
+            <p>利用岩石導電性（ERT）與磁性條帶反推地下水、礦床與斷層帶。</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 14</span>
+            <h4>地電與地磁資料解譯</h4>
+            <p>整合多元地球物理資料，進行多重約束之綜合地質解譯。</p>
+          </div>
+          <div class="week-card final" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 15–16</span>
+            <h4>期末專題口頭發表</h4>
+            <p>各組以 GitHub Pages 公開網站發表探究成果，進行中英文科學答辯！</p>
+          </div>
+          <div class="week-card" data-part="part2" style="display: none;">
+            <span class="week-badge">Week 17–18</span>
+            <h4>專業實習與自主深化</h4>
+            <p>校外參訪、機構交流或將專題持續深化為畢業論文專題雛形。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CLIL 雙語百寶箱 (Audio Soundboard) -->
+    <section id="clil-box">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Bilingual Soundboard</span>
+          <h3 class="section-title">CLIL 雙語百寶箱：點擊發音朗讀</h3>
+          <p class="section-subtitle">課堂最常使用的科學句型，點擊喇叭按鈕立即聆聽英語發音，勇敢開口練習！</p>
+        </div>
+
+        <div class="clil-card-container">
+          <!-- 句型 1 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"We observe that earthquakes are distributed along plate boundaries."</div>
+              <div class="zh">我們觀察到地震沿著板塊邊界分布。</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'We observe that earthquakes are distributed along plate boundaries.')">🔊</button>
+          </div>
+
+          <!-- 句型 2 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"What evidence supports this idea?"</div>
+              <div class="zh">有什麼觀測證據可以支持這個想法？</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'What evidence supports this idea?')">🔊</button>
+          </div>
+
+          <!-- 句型 3 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"Travel time is equal to distance divided by velocity."</div>
+              <div class="zh">走時等於距離除以速度（t = d / v）。</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'Travel time is equal to distance divided by velocity.')">🔊</button>
+          </div>
+
+          <!-- 句型 4 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"AI suggested a hypothesis, but we verified it using observed data."</div>
+              <div class="zh">AI 提出了一個假說，但我們用實際觀測資料進行了驗證。</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'AI suggested a hypothesis, but we verified it using observed data.')">🔊</button>
+          </div>
+
+          <!-- 句型 5 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"Therefore, we revised our initial subsurface model."</div>
+              <div class="zh">因此，我們修正了最初的地下構造模型。</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'Therefore, we revised our initial subsurface model.')">🔊</button>
+          </div>
+
+          <!-- 句型 6 -->
+          <div class="clil-voice-card">
+            <div class="voice-text">
+              <div class="en">"How can we study something we cannot directly see?"</div>
+              <div class="zh">我們該如何研究那些無法用肉眼直接看見的內部？</div>
+            </div>
+            <button type="button" class="btn-speak" title="點擊發音" onclick="speakText(this, 'How can we study something we cannot directly see?')">🔊</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: 常見問題 FAQ -->
+    <section id="faq" style="background: rgba(246, 241, 232, 0.45);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Frequently Asked Questions</span>
+          <h3 class="section-title">同學常見問題與心態指南</h3>
+          <p class="section-subtitle">有疑問很正常！看看老師與助教為你準備的安心回答</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Q1. 我以前沒寫過 Python 程式，這門課會不會跟不上？</span>
+              <span class="indicator">▼</span>
+            </div>
+            <div class="faq-answer">
+              完全不用擔心！本課程所有的程式實作都部署在 Google Colab 上，範例程式碼皆已備妥。課堂上會一步步帶大家執行，並配合 AI Agent 解釋語法錯誤。我們的核心是「看懂資料呈現的地球物理意義」，而不是死背程式碼語法！
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Q2. 英語不好，CLIL 雙語學習會不會壓力很大？</span>
+              <span class="indicator">▼</span>
+            </div>
+            <div class="faq-answer">
+              請放鬆心情！這不是英文文法檢定，而是「用英語模組作為思考工具」。教材提供 8 層模組化句型卡與多重範例，小組討論時中英文穿插皆可。只要敢套用關鍵字造句、清楚表達科學論點，你就是最棒的！
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Q3. 期末成果網站（GitHub Pages）要交什麼內容？</span>
+              <span class="indicator">▼</span>
+            </div>
+            <div class="faq-answer">
+              期末每組會完成一個公開網頁，收錄你們這學期的探究故事：包含研究問題、背景文獻、PyGMT 繪製的科學圖表、AI 對話與查證歷程、CER 論證與 DEAR 模型演進，以及 3D 列印或建模展示，這會是你未來申請研究所或求職時最亮眼的數位成果作品集（Portfolio）！
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Q4. 課程成績與評量比例怎麼計算？</span>
+              <span class="indicator">▼</span>
+            </div>
+            <div class="faq-answer">
+              成績架構為：<strong>期中考 40%</strong>（檢核基礎原理與走時計算）、<strong>平時作業與歷程檔案 50%</strong>（包含 Colab 程式、AI 紀錄、網頁與期末口報）、<strong>平時課堂表現 10%</strong>（出席、小組討論與 Exit Ticket）。我們重視的是你的「探究過程與思維改變」，而不是只有標準答案！
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 水彩畫風頁尾 -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>地球物理通論</h3>
+          <p>
+            臺北市立大學 地球環境暨生物資源學系<br>
+            授課教師：陳達毅 博士（Dayi Chen）<br>
+            上課時間：第 115 學年第 1 學期 每週三 09:00–12:00
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>課堂教材資源</h4>
+          <ul class="footer-links">
+            <li><a href="classroom.html">🖥️ 課堂即時互動系統 (Classroom)</a></li>
+            <li><a href="https://colab.research.google.com/github/oceanicdayi/plot_plate_boundary_pygmt/blob/main/pygmt_plot_plate_boundary.ipynb" target="_blank" rel="noopener">🐍 Google Colab PyGMT 筆記本</a></li>
+            <li><a href="https://github.com/oceanicdayi/2026_Utaipei_Geophysics_0909" target="_blank" rel="noopener">🐙 GitHub 專案倉庫原始碼</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>快速前往章節</h4>
+          <ul class="footer-links">
+            <li><a href="#pillars">三大教學核心主軸</a></li>
+            <li><a href="#how-we-learn">5 步探究與 CER/DEAR</a></li>
+            <li><a href="#preparation">課前裝備檢核清單</a></li>
+            <li><a href="#roadmap">18 週探險地圖</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>🎨 Made with watercolor love for Geophysics Learners · 探索地球 ‧ 連結科學 ‧ 面向未來</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 水彩互動邏輯 Script -->
+  <script>
+    // 1. 課前準備清單互動邏輯與進度條
+    function toggleCheck(card) {
+      card.classList.toggle('completed');
+      updateChecklistProgress();
+      createWatercolorSplat(event.clientX, event.clientY);
+    }
+
+    function updateChecklistProgress() {
+      const items = document.querySelectorAll('.check-item');
+      const completed = document.querySelectorAll('.check-item.completed');
+      const total = items.length;
+      const count = completed.length;
+      const pct = Math.round((count / total) * 100);
+
+      document.getElementById('completed-count').textContent = count;
+      document.getElementById('progress-percent').textContent = pct + '%';
+      document.getElementById('checklist-fill').style.width = pct + '%';
+
+      const congrats = document.getElementById('congrats-banner');
+      if (pct === 100) {
+        congrats.style.display = 'flex';
+      } else {
+        congrats.style.display = 'none';
+      }
+    }
+
+    // 2. 18 週地圖切換 (前半 vs 後半)
+    function filterRoadmap(part) {
+      const buttons = document.querySelectorAll('.toggle-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.week-card');
+      cards.forEach(card => {
+        if (card.getAttribute('data-part') === part) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. FAQ 折疊展開效果
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // 4. CLIL 語音朗讀 (Web Speech API)
+    function speakText(btn, text) {
+      if (!('speechSynthesis' in window)) {
+        alert('您的瀏覽器不支援文字發音功能。請使用 Chrome 或 Edge 瀏覽器體驗！');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9; // 稍慢節奏，方便學習發音
+      
+      btn.textContent = '⏳';
+      utterance.onend = () => { btn.textContent = '🔊'; };
+      utterance.onerror = () => { btn.textContent = '🔊'; };
+      window.speechSynthesis.speak(utterance);
+
+      createWatercolorSplat(event.clientX, event.clientY);
+    }
+
+    // 5. 點擊水彩暈染水波微特效 (Watercolor Click Ripple)
+    document.addEventListener('click', function(e) {
+      // 避免在按鈕內部重複觸發過多
+      if (e.target.tagName !== 'BUTTON' && !e.target.closest('.check-item')) {
+        createWatercolorSplat(e.clientX, e.clientY);
+      }
+    });
+
+    function createWatercolorSplat(x, y) {
+      if (!x || !y) return;
+      const colors = ['rgba(224, 122, 95, 0.4)', 'rgba(106, 170, 197, 0.4)', 'rgba(123, 166, 134, 0.4)', 'rgba(232, 176, 86, 0.4)'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      const ripple = document.createElement('div');
+      ripple.className = 'click-ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.background = randomColor;
+      document.body.appendChild(ripple);
+
+      setTimeout(() => {
+        ripple.remove();
+      }, 650);
+    }
+  </script>
 </body>
 </html>
